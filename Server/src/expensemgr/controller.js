@@ -1,70 +1,90 @@
 const pool = require("../../db");
 const queries = require("./queries");
 
-const getUsers = (req, res) => {
-  pool.query(queries.getUsers, (error, results) => {
-    if (error) throw error;
+const getUsers = async (req, res) => {
+  try {
+    const results = await query(queries.getUsers);
     res.status(200).json(results.rows);
-  });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
 };
 
-const getUserById = (req, res) => {
+const getUserById = async (req, res) => {
   const id = parseInt(req.params.id);
-  pool.query(queries.getUserById, [id], (error, results) => {
-    if (error) throw error;
+  try {
+    const results = await query(queries.getUserById, [id]);
     res.status(200).json(results.rows);
-  });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
 };
 
-const addUser = (req, res) => {
+const addUser = async (req, res) => {
   const { name, email, password, balance, status } = req.body;
-  //check if email exists
-  pool.query(queries.checkEmailexists, [email], (error, results) => {
-    if (results.rows.length) {
+  try {
+    const emailCheck = await query(queries.checkEmailexists, [email]);
+    if (emailCheck.rows.length) {
       res.send("Email Already exists");
+      return;
     }
 
-    //add user to db
-    pool.query(
-      queries.addUser,
-      [name, email, password, balance, status],
-      (error, results) => {
-        if (error) throw error;
-        res.status(201).send("User created successfully");
-      }
-    );
-  });
+    await query(queries.addUser, [name, email, password, balance, status]);
+    res.status(201).send("User created successfully");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
 };
 
-const removeUser = (req, res) => {
+const removeUser = async (req, res) => {
   const id = parseInt(req.params.id);
 
-  pool.query(queries.getUserById, [id], (error, results) => {
-    const noUserFound = !results.rows.length;
-    if (noUserFound) {
-      res.send("User does not exit!");
+  try {
+    const userCheck = await query(queries.getUserById, [id]);
+    if (userCheck.rows.length === 0) {
+      res.send("User does not exist!");
+      return;
     }
-  });
-  pool.query(queries.removeUser, [id], (error, results) => {
-    if (error) throw error;
+
+    await query(queries.removeUser, [id]);
     res.status(200).send("User deleted Successfully");
-  });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
 };
 
-const updateUser = (req, res) => {
+const updateUser = async (req, res) => {
   const id = parseInt(req.params.id);
   const { name } = req.body;
-  pool.query(queries.getUserById, [id], (error, results) => {
-    const noUserFound = !results.rows.length;
-    if (noUserFound) {
-      res.send("User does not exit!");
+
+  try {
+    const userCheck = await query(queries.getUserById, [id]);
+    if (userCheck.rows.length === 0) {
+      res.send("User does not exist!");
+      return;
     }
-    pool.query(queries.updateUser, [name, id], (error, results) => {
-      if (error) throw error;
-      res.status(200).send("User updated successfully");
+
+    await query(queries.updateUser, [name, id]);
+    res.status(200).send("User updated successfully");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+// Helper function to promisify pool.query
+function query(sql, params) {
+  return new Promise((resolve, reject) => {
+    pool.query(sql, params, (error, results) => {
+      if (error) reject(error);
+      resolve(results);
     });
   });
-};
+}
 
 module.exports = {
   getUsers,
