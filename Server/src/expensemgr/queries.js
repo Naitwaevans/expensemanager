@@ -11,8 +11,17 @@ const getExpenses = "SELECT * FROM expense";
 const getexpenseById = "SELECT * FROM expense WHERE id = $1";
 const addExpense =
   "INSERT INTO expense(user_id, amount, description, created_at, updated_at, status) VALUES ($1,$2, $3, $4, $5, $6)";
-const removeExpense = "SELECT FROM expense WHERE id = $1";
+const removeExpense = "DELETE FROM expense WHERE id = $1";
 const updateExpense =
+  "UPDATE expense SET amount = $1, description = $2 WHERE id = $3";
+
+//income Queries
+const getIncome = "SELECT * FROM income";
+const getIncomeById = "SELECT * FROM income WHERE id = $1";
+const addIncome =
+  "INSERT INTO income (user_id,amount, date, description, created_at, updated_at, status) VALUES ($1,$2,$3,$4, $5,$6, $7)";
+const removeIncome = "DELETE FROM income WHERE id=$1";
+const updateIncome =
   "UPDATE expense SET amount = $1, description = $2 WHERE id = $3";
 
 module.exports = {
@@ -27,4 +36,9 @@ module.exports = {
   addExpense,
   removeExpense,
   updateExpense,
+  getIncome,
+  getIncomeById,
+  addIncome,
+  removeIncome,
+  updateIncome,
 };

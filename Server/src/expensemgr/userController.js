@@ -13,7 +13,7 @@ const getUsers = async (req, res) => {
 
 const getUserById = async (req, res) => {
   const id = parseInt(req.params.id);
-  console.log("Parsed ID:", id);
+
   try {
     const results = await pool.query(queries.getUserById, [id]);
     res.status(200).json(results.rows);
