@@ -36,7 +36,32 @@ const register = async (req, res) => {
   }
 };
 
+const protected = async (req, res) => {
+  try {
+    return res.status(200).json({
+      info: "Protected info",
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+const logout = async (req, res) => {
+  try {
+    return res.status(200).clearCookie("token", { httpOnly: true }).json({
+      success: true,
+      message: "Logged out successfully",
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
 module.exports = {
   login,
   register,
+  protected,
+  logout,
 };

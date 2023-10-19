@@ -7,6 +7,7 @@ const {
 const {
   validationMiddleware,
 } = require("../../middlewares/validations-middleware");
+const { userAuth } = require("../../middlewares/auth-middleware");
 
 const router = Router();
 
@@ -20,5 +21,11 @@ router.post(
   validationMiddleware,
   controller.register
 );
+
+// //protected route
+router.get("/protected", userAuth, controller.protected);
+
+//logout
+router.get("/logout", userAuth, controller.logout);
 
 module.exports = router;
