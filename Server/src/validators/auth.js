@@ -21,14 +21,15 @@ const emailExists = check("email").custom(async (value) => {
 });
 
 loginFieldCheck = check("email").custom(async (value, { req }) => {
-  const user = await db.query(queries.checkEmailexists, [value]);
+  const user = await db.query(queries.loginCheck, [value]);
   if (!user.rows.length) {
     throw new Error("Email does not exist");
   }
-  const validPassword = await compare(req.body.password, user.rows.password);
+  const validPassword = await compare(req.body.password, user.rows[0].password);
   if (!validPassword) {
     throw new Error("Invalid Password");
   }
+  req.user = user.rows[0];
 });
 
 module.exports = {

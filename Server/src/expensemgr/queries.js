@@ -4,6 +4,7 @@ const checkEmailexists = "SELECT s FROM users s WHERE s.email =$1";
 const addUser = "INSERT INTO users(name, email, password)VALUES ($1, $2, $3)";
 const removeUser = "DELETE FROM users WHERE id =$1";
 const updateUser = "UPDATE users SET name = $1 WHERE id = $2";
+const loginCheck = "SELECT * FROM users WHERE email = $1";
 
 //Expenses Queries
 const getExpenses = "SELECT * FROM expense";
@@ -45,4 +46,5 @@ module.exports = {
   removeIncome,
   updateIncome,
   register,
+  loginCheck,
 };

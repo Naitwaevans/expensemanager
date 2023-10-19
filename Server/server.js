@@ -1,4 +1,5 @@
 const express = require("express");
+const cookieParser = require("cookie-parser");
 
 //import routes
 const usersRoutes = require("./src/expensemgr/routes/usersRoutes");
@@ -9,7 +10,9 @@ const loginRoutes = require("./src/expensemgr/routes/authroutes");
 const app = express();
 const { PORT } = require("./src/constants/index");
 
+//middlewares
 app.use(express.json());
+app.use(cookieParser());
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
