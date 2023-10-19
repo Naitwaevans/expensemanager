@@ -1,8 +1,7 @@
-const getUsers = "SELECT * FROM users";
-const getUserById = "SELECT * FROM users WHERE id = $1";
+const getUsers = "SELECT id, name, email, balance FROM users";
+const getUserById = "SELECT id, name, email, balance FROM users WHERE id = $1";
 const checkEmailexists = "SELECT s FROM users s WHERE s.email =$1";
-const addUser =
-  "INSERT INTO users(name, email, password, balance, status)VALUES ($1, $2, $3, $4, $5)";
+const addUser = "INSERT INTO users(name, email, password)VALUES ($1, $2, $3)";
 const removeUser = "DELETE FROM users WHERE id =$1";
 const updateUser = "UPDATE users SET name = $1 WHERE id = $2";
 
@@ -24,6 +23,10 @@ const removeIncome = "DELETE FROM income WHERE id=$1";
 const updateIncome =
   "UPDATE expense SET amount = $1, description = $2 WHERE id = $3";
 
+//Login and Register queries
+const register =
+  "INSERT INTO users (name, email, password) VALUES ($1, $2, $3)";
+
 module.exports = {
   getUsers,
   addUser,
@@ -41,4 +44,5 @@ module.exports = {
   addIncome,
   removeIncome,
   updateIncome,
+  register,
 };

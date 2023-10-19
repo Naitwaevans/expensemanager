@@ -1,5 +1,6 @@
 const pool = require("../../../db");
 const queries = require("../queries");
+const { hash } = require("bcryptjs");
 
 const getUsers = async (req, res) => {
   try {
@@ -24,7 +25,8 @@ const getUserById = async (req, res) => {
 };
 
 const addUser = async (req, res) => {
-  const { name, email, password, balance, status } = req.body;
+  const { name, email, password } = req.body;
+  const hashedPassword = await hash(password, 10);
   try {
     const emailCheck = await pool.query(queries.checkEmailexists, [email]);
     if (emailCheck.rows.length) {
@@ -32,7 +34,7 @@ const addUser = async (req, res) => {
       return;
     }
 
-    await pool.query(queries.addUser, [name, email, password, balance, status]);
+    await pool.query(queries.addUser, [name, email, hashedPassword]);
     res.status(201).send("User created successfully");
   } catch (error) {
     console.error(error);
