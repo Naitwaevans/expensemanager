@@ -1,5 +1,5 @@
-const pool = require("../../db");
-const queries = require("./queries");
+const pool = require("../../../db");
+const queries = require("../queries");
 
 const getExpenses = async (req, res) => {
   try {
