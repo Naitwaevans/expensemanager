@@ -26,6 +26,6 @@ router.post(
 router.get("/protected", userAuth, controller.protected);
 
 //logout
-router.get("/logout", userAuth, controller.logout);
+router.get("/logout", controller.logout);
 
 module.exports = router;
