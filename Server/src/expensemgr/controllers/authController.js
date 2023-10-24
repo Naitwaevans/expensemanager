@@ -27,7 +27,6 @@ const register = async (req, res) => {
   try {
     const hashedPassword = await hash(password, 10);
     await pool.query(queries.register, [name, email, hashedPassword]);
-    console.log("validation passed");
     res.status(201).send("Registration successful");
   } catch (error) {
     console.error(error);
