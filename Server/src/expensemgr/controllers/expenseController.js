@@ -77,10 +77,24 @@ const updateExpense = async (req, res) => {
   }
 };
 
+const getExpensesByUserId = async (req, res) => {
+  const { id } = req.params; // Use 'id' to retrieve the user ID from the URL parameter
+
+  try {
+    // Use 'id' to retrieve expenses for the specific user
+    const results = await pool.query(queries.getExpensesByUserId, [id]);
+    res.status(200).json(results.rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
 module.exports = {
   getExpenses,
   getExpenseById,
   addExpense,
   removeExpense,
   updateExpense,
+  getExpensesByUserId,
 };

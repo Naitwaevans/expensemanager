@@ -21,6 +21,18 @@ const getIncomeById = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
+const getIncomeByUserId = async (req, res) => {
+  const { id } = req.params; // Use 'id' to retrieve the user ID from the URL parameter
+
+  try {
+    // Use 'id' to retrieve expenses for the specific user
+    const results = await pool.query(queries.getIncomeByUserId, [id]);
+    res.status(200).json(results.rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+};
 
 const addIncome = async (req, res) => {
   const { user_id, amount, date, description, created_at, updated_at, status } =
@@ -84,4 +96,5 @@ module.exports = {
   addIncome,
   removeIncome,
   updateIncome,
+  getIncomeByUserId,
 };

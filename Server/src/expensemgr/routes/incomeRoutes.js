@@ -9,5 +9,6 @@ router.get("/:id", controller.getIncomeById);
 router.post("/", controller.addIncome);
 router.delete("/:id", controller.removeIncome);
 router.put("/:id", controller.updateIncome);
+router.get("/user/:id", controller.getIncomeByUserId);
 
 module.exports = router;

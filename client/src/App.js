@@ -10,6 +10,8 @@ import Dashboard from "./pages/dashboard";
 import Home from "./pages/home";
 import Login from "./pages/login";
 import Register from "./pages/register";
+import IndividualExpenses from "./pages/individualExpenses";
+import IndividualIncomes from "./pages/individualIncomes";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 
 const PrivateRoutes = () => {
@@ -31,9 +33,12 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route element={<PrivateRoutes />}>
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/individual-incomes" element={<IndividualIncomes />} />
+          <Route path="/individual-expenses" element={<IndividualExpenses />} />
         </Route>
         <Route element={<RestrictedRoutes />}>
           <Route path="/register" element={<Register />} />
+
           <Route path="/login" element={<Login />} />
         </Route>
       </Routes>

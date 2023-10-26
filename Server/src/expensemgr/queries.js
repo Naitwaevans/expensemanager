@@ -29,6 +29,11 @@ const updateIncome =
 const register =
   "INSERT INTO users (name, email, password) VALUES ($1, $2, $3)";
 
+const getExpensesByUserId =
+  "SELECT expense.id AS expense_id, expense.amount, expense.description, expense.created_at FROM expense WHERE expense.user_id = $1";
+const getIncomeByUserId =
+  "SELECT income.id AS income_id, income.amount, income.description, income.created_at FROM income WHERE income.user_id = $1";
+
 module.exports = {
   getUsers,
   addUser,
@@ -49,4 +54,6 @@ module.exports = {
   register,
   loginCheck,
   strategyQuery,
+  getExpensesByUserId,
+  getIncomeByUserId,
 };
