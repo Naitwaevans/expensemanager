@@ -1,5 +1,6 @@
 const pool = require("../../../db");
 const queries = require("../queries");
+const { sign, decode } = require("jsonwebtoken");
 
 const getExpenses = async (req, res) => {
   try {
@@ -78,10 +79,9 @@ const updateExpense = async (req, res) => {
 };
 
 const getExpensesByUserId = async (req, res) => {
-  const { id } = req.params; // Use 'id' to retrieve the user ID from the URL parameter
+  const id = req.params.id;
 
   try {
-    // Use 'id' to retrieve expenses for the specific user
     const results = await pool.query(queries.getExpensesByUserId, [id]);
     res.status(200).json(results.rows);
   } catch (error) {

@@ -1,53 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { fetchProtectedInfo, onLogout } from "../api/auth";
-import { unauthenticateUser } from "../redux/slices/authslice";
-
-const Layout = ({ children }) => {
-  const dispatch = useDispatch();
-  const [loading, setLoading] = useState(true);
-  const [protectedData, setProtectedData] = useState(null);
-
-  const logout = async () => {
-    try {
-      await onLogout();
-      dispatch(unauthenticateUser());
-      localStorage.removeItem("isAuth");
-    } catch (error) {
-      console.log(error.response);
-    }
-  };
-
-  const protectedInfo = async () => {
-    try {
-      const { data } = await fetchProtectedInfo();
-      setProtectedData(data.info);
-      setLoading(false);
-    } catch (error) {
-      logout();
-    }
-  };
-
-  useEffect(() => {
-    protectedInfo();
-  }, []);
-  const handleAddExpenseClick = () => {
-    // Redirect to the desired page
-    window.location.href = "http://localhost:3000/add-expense";
-  };
-  const handleIncomeClick = () => {
-    window.location.href = "http://localhost:3000/add-income";
-  };
-  return (
     <div>
       <header
         id="header"
         className="header fixed-top d-flex align-items-center"
       >
         <div className="d-flex align-items-center justify-content-between">
-          <a href="/dashboard" className="logo d-flex align-items-center">
+          <a href="index.html" className="logo d-flex align-items-center">
             <img src="assets/img/logo.png" alt="" />
-            <span className="d-none d-lg-block">Expense Manager</span>
+            <span className="d-none d-lg-block">NiceAdmin</span>
           </a>
           <i className="bi bi-list toggle-sidebar-btn"></i>
         </div>
@@ -68,23 +27,6 @@ const Layout = ({ children }) => {
               <i className="bi bi-search"></i>
             </button>
           </form>
-        </div>
-        <div>
-          <button
-            className="btn btn-primary rounded m-3"
-            onClick={handleAddExpenseClick}
-          >
-            Add Expense
-          </button>
-        </div>
-
-        <div>
-          <button
-            className="btn btn-secondary rounded m3"
-            onClick={handleIncomeClick}
-          >
-            Add Income
-          </button>
         </div>
 
         <nav className="header-nav ms-auto">
@@ -351,23 +293,23 @@ const Layout = ({ children }) => {
       <aside id="sidebar" className="sidebar">
         <ul className="sidebar-nav" id="sidebar-nav">
           <li className="nav-item">
-            <a className="nav-link" href="/dashboard">
+            <a className="nav-link" href="index.html">
               <i className="bi bi-grid"></i>
               <span>Dashboard</span>
             </a>
           </li>
 
           <li className="nav-item">
-            <a className="nav-link" href="/individual-incomes">
+            <a className="nav-link" href="forms-editors.html">
               <i className="bi bi-circle"></i>
-              <span>Income</span>
+              <span>Form Editors</span>
             </a>
           </li>
 
           <li className="nav-item">
-            <a className="nav-link" href="/individual-expenses">
+            <a className="nav-link" href="forms-validation.html">
               <i className="bi bi-circle"></i>
-              <span>Expenses</span>
+              <span>Form Validation</span>
             </a>
           </li>
         </ul>
@@ -375,7 +317,22 @@ const Layout = ({ children }) => {
 
       {/* Main Content */}
       <main id="main" className="main">
-        {children}
+        <div className="pagetitle">
+          <h1>Dashboard</h1>
+          <h2>{protectedData}</h2>
+          <nav>
+            <ol className="breadcrumb">
+              <li className="breadcrumb-item">
+                <a href="index.html">Home</a>
+              </li>
+              <li className="breadcrumb-item active">Dashboard</li>
+            </ol>
+          </nav>
+        </div>
+
+        <section className="section dashboard">
+          {/* Add your dashboard content here */}
+        </section>
       </main>
 
       {/* Footer */}
@@ -383,7 +340,3 @@ const Layout = ({ children }) => {
         {/* Your footer content */}
       </footer>
     </div>
-  );
-};
-
-export default Layout;

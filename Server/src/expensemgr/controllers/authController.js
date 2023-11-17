@@ -1,7 +1,7 @@
 const pool = require("../../../db");
 const queries = require("../queries");
 const { hash } = require("bcryptjs");
-const { sign } = require("jsonwebtoken");
+const { sign, decode } = require("jsonwebtoken");
 const { SECRET } = require("../../constants/index.js");
 
 const login = async (req, res) => {
@@ -13,6 +13,8 @@ const login = async (req, res) => {
   try {
     const token = await sign(payload, SECRET);
     return res.status(200).cookie("token", token, { httpOnly: true }).json({
+      id: user.id,
+      token,
       success: true,
       message: "Logged in successfully",
     });

@@ -48,6 +48,7 @@ const addIncome = async (req, res) => {
       status,
     ]);
     res.status(201).send("Income Added Successfully");
+    console.log(results);
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");

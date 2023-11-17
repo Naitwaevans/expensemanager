@@ -1,379 +1,105 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { fetchProtectedInfo, onLogout } from "../api/auth";
-import { unauthenticateUser } from "../redux/slices/authslice";
+import React from "react"; // Add the import statement for React
+import Layout from "../components/dashboardLayout";
 
 const Dashboard = () => {
-  const dispatch = useDispatch();
-  const [loading, setLoading] = useState(true);
-  const [protectedData, setProtectedData] = useState(null);
-
-  const logout = async () => {
-    try {
-      await onLogout();
-      dispatch(unauthenticateUser());
-      localStorage.removeItem("isAuth");
-    } catch (error) {
-      console.log(error.response);
-    }
-  };
-
-  const protectedInfo = async () => {
-    try {
-      const { data } = await fetchProtectedInfo();
-      setProtectedData(data.info);
-      setLoading(false);
-    } catch (error) {
-      logout();
-    }
-  };
-
-  useEffect(() => {
-    protectedInfo();
-  }, []);
-
   return (
-    <div>
-      <header
-        id="header"
-        className="header fixed-top d-flex align-items-center"
-      >
-        <div className="d-flex align-items-center justify-content-between">
-          <a href="index.html" className="logo d-flex align-items-center">
-            <img src="assets/img/logo.png" alt="" />
-            <span className="d-none d-lg-block">NiceAdmin</span>
-          </a>
-          <i className="bi bi-list toggle-sidebar-btn"></i>
-        </div>
-
-        <div className="search-bar">
-          <form
-            className="search-form d-flex align-items-center"
-            method="POST"
-            action="#"
-          >
-            <input
-              type="text"
-              name="query"
-              placeholder="Search"
-              title="Enter search keyword"
-            />
-            <button type="submit" title="Search">
-              <i className="bi bi-search"></i>
-            </button>
-          </form>
-        </div>
-
-        <nav className="header-nav ms-auto">
-          <ul className="d-flex align-items-center">
-            <li className="nav-item d-block d-lg-none">
-              <a className="nav-link nav-icon search-bar-toggle" href="#">
-                <i className="bi bi-search"></i>
-              </a>
-            </li>
-
-            <li className="nav-item dropdown">
-              <a
-                className="nav-link nav-icon"
-                href="#"
-                data-bs-toggle="dropdown"
-              >
-                <i className="bi bi-bell"></i>
-                <span className="badge bg-primary badge-number">4</span>
-              </a>
-
-              <ul className="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
-                <li className="dropdown-header">
-                  You have 4 new notifications
-                  <a href="#">
-                    <span className="badge rounded-pill bg-primary p-2 ms-2">
-                      View all
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <hr className="dropdown-divider" />
-                </li>
-
-                <li className="notification-item">
-                  <i className="bi bi-exclamation-circle text-warning"></i>
-                  <div>
-                    <h4>Lorem Ipsum</h4>
-                    <p>Quae dolorem earum veritatis oditseno</p>
-                    <p>30 min. ago</p>
-                  </div>
-                </li>
-
-                <li>
-                  <hr className="dropdown-divider" />
-                </li>
-
-                <li className="notification-item">
-                  <i className="bi bi-x-circle text-danger"></i>
-                  <div>
-                    <h4>Atque rerum nesciunt</h4>
-                    <p>Quae dolorem earum veritatis oditseno</p>
-                    <p>1 hr. ago</p>
-                  </div>
-                </li>
-
-                <li>
-                  <hr className="dropdown-divider" />
-                </li>
-
-                <li className="notification-item">
-                  <i className="bi bi-check-circle text-success"></i>
-                  <div>
-                    <h4>Sit rerum fuga</h4>
-                    <p>Quae dolorem earum veritatis oditseno</p>
-                    <p>2 hrs. ago</p>
-                  </div>
-                </li>
-
-                <li>
-                  <hr className="dropdown-divider" />
-                </li>
-
-                <li className="notification-item">
-                  <i className="bi bi-info-circle text-primary"></i>
-                  <div>
-                    <h4>Dicta reprehenderit</h4>
-                    <p>Quae dolorem earum veritatis oditseno</p>
-                    <p>4 hrs. ago</p>
-                  </div>
-                </li>
-
-                <li>
-                  <hr className="dropdown-divider" />
-                </li>
-                <li className="dropdown-footer">
-                  <a href="#">Show all notifications</a>
-                </li>
-              </ul>
-            </li>
-
-            <li className="nav-item dropdown">
-              <a
-                className="nav-link nav-icon"
-                href="#"
-                data-bs-toggle="dropdown"
-              >
-                <i className="bi bi-chat-left-text"></i>
-                <span className="badge bg-success badge-number">3</span>
-              </a>
-
-              <ul className="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
-                <li className="dropdown-header">
-                  You have 3 new messages
-                  <a href="#">
-                    <span className="badge rounded-pill bg-primary p-2 ms-2">
-                      View all
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <hr className="dropdown-divider" />
-                </li>
-
-                <li className="message-item">
-                  <a href="#">
-                    <img
-                      src="assets/img/messages-1.jpg"
-                      alt=""
-                      className="rounded-circle"
-                    />
-                    <div>
-                      <h4>Maria Hudson</h4>
-                      <p>
-                        Velit asperiores et ducimus soluta repudiandae labore
-                        officia est ut...
-                      </p>
-                      <p>4 hrs. ago</p>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <hr className="dropdown-divider" />
-                </li>
-
-                <li className="message-item">
-                  <a href="#">
-                    <img
-                      src="assets/img/messages-2.jpg"
-                      alt=""
-                      className="rounded-circle"
-                    />
-                    <div>
-                      <h4>Anna Nelson</h4>
-                      <p>
-                        Velit asperiores et ducimus soluta repudiandae labore
-                        officia est ut...
-                      </p>
-                      <p>6 hrs. ago</p>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <hr className="dropdown-divider" />
-                </li>
-
-                <li className="message-item">
-                  <a href="#">
-                    <img
-                      src="assets/img/messages-3.jpg"
-                      alt=""
-                      className="rounded-circle"
-                    />
-                    <div>
-                      <h4>David Muldon</h4>
-                      <p>
-                        Velit asperiores et ducimus soluta repudiandae labore
-                        officia est ut...
-                      </p>
-                      <p>8 hrs. ago</p>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <hr className="dropdown-divider" />
-                </li>
-
-                <li className="dropdown-footer">
-                  <a href="#">Show all messages</a>
-                </li>
-              </ul>
-            </li>
-
-            <li className="nav-item dropdown pe-3">
-              <a
-                className="nav-link nav-profile d-flex align-items-center pe-0"
-                href="#"
-                data-bs-toggle="dropdown"
-              >
-                <img
-                  src="assets/img/profile-img.jpg"
-                  alt="Profile"
-                  className="rounded-circle"
-                />
-                <span className="d-none d-md-block dropdown-toggle ps-2">
-                  K. Anderson
-                </span>
-              </a>
-
-              <ul className="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-                <li className="dropdown-header">
-                  <h6>Kevin Anderson</h6>
-                  <span>Web Designer</span>
-                </li>
-                <li>
-                  <hr className="dropdown-divider" />
-                </li>
-
-                <li>
-                  <a
-                    className="dropdown-item d-flex align-items-center"
-                    href="users-profile.html"
-                  >
-                    <i className="bi bi-person"></i>
-                    <span>My Profile</span>
-                  </a>
-                </li>
-                <li>
-                  <hr className="dropdown-divider" />
-                </li>
-
-                <li>
-                  <a
-                    className="dropdown-item d-flex align-items-center"
-                    href="users-profile.html"
-                  >
-                    <i className="bi bi-gear"></i>
-                    <span>Account Settings</span>
-                  </a>
-                </li>
-                <li>
-                  <hr className="dropdown-divider" />
-                </li>
-
-                <li>
-                  <a
-                    className="dropdown-item d-flex align-items-center"
-                    href="pages-faq.html"
-                  >
-                    <i className="bi bi-question-circle"></i>
-                    <span>Need Help?</span>
-                  </a>
-                </li>
-                <li>
-                  <hr className="dropdown-divider" />
-                </li>
-
-                <li>
-                  <a
-                    className="dropdown-item d-flex align-items-center"
-                    href="#"
-                  >
-                    <i className="bi bi-box-arrow-right"></i>
-                    <span>Sign Out</span>
-                  </a>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </nav>
-      </header>
-
-      {/* Sidebar */}
-      <aside id="sidebar" className="sidebar">
-        <ul className="sidebar-nav" id="sidebar-nav">
-          <li className="nav-item">
-            <a className="nav-link" href="index.html">
-              <i className="bi bi-grid"></i>
-              <span>Dashboard</span>
+    <Layout>
+      <div class="col-xxl-4 col-md-6">
+        <div class="card info-card sales-card">
+          <div class="filter">
+            <a class="icon" href="#" data-bs-toggle="dropdown">
+              <i class="bi bi-three-dots"></i>
             </a>
-          </li>
-
-          <li className="nav-item">
-            <a className="nav-link" href="forms-editors.html">
-              <i className="bi bi-circle"></i>
-              <span>Form Editors</span>
-            </a>
-          </li>
-
-          <li className="nav-item">
-            <a className="nav-link" href="forms-validation.html">
-              <i className="bi bi-circle"></i>
-              <span>Form Validation</span>
-            </a>
-          </li>
-        </ul>
-      </aside>
-
-      {/* Main Content */}
-      <main id="main" className="main">
-        <div className="pagetitle">
-          <h1>Dashboard</h1>
-          <h2>{protectedData}</h2>
-          <nav>
-            <ol className="breadcrumb">
-              <li className="breadcrumb-item">
-                <a href="index.html">Home</a>
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+              <li class="dropdown-header text-start">
+                <h6>Filter</h6>
               </li>
-              <li className="breadcrumb-item active">Dashboard</li>
-            </ol>
-          </nav>
+
+              <li>
+                <a class="dropdown-item" href="#">
+                  Today
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="#">
+                  This Month
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="#">
+                  This Year
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="card-body">
+            <h5 class="card-title">
+              Total Income <span>| Today</span>
+            </h5>
+
+            <div class="d-flex align-items-center">
+              <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                <i class="bi bi-cart"></i>
+              </div>
+              <div class="ps-3">
+                <h6>145</h6>
+                <span class="text-success small pt-1 fw-bold">12%</span>{" "}
+                <span class="text-muted small pt-2 ps-1">increase</span>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
 
-        <section className="section dashboard">
-          {/* Add your dashboard content here */}
-        </section>
-      </main>
+      <div class="col-xxl-4 col-md-6">
+        <div class="card info-card revenue-card">
+          <div class="filter">
+            <a class="icon" href="#" data-bs-toggle="dropdown">
+              <i class="bi bi-three-dots"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+              <li class="dropdown-header text-start">
+                <h6>Filter</h6>
+              </li>
 
-      {/* Footer */}
-      <footer id="footer" className="footer">
-        {/* Your footer content */}
-      </footer>
-    </div>
+              <li>
+                <a class="dropdown-item" href="#">
+                  Today
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="#">
+                  This Month
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="#">
+                  This Year
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="card-body">
+            <h5 class="card-title">
+              Total Expenses <span>| This Month</span>
+            </h5>
+
+            <div class="d-flex align-items-center">
+              <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                <i class="bi bi-currency-dollar"></i>
+              </div>
+              <div class="ps-3">
+                <h6>$3,264</h6>
+                <span class="text-success small pt-1 fw-bold">8%</span>{" "}
+                <span class="text-muted small pt-2 ps-1">increase</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Layout>
   );
 };
 

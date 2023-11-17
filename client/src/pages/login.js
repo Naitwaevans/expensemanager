@@ -19,10 +19,12 @@ const Login = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      await onLogin(values);
+      const res = await onLogin(values);
+      console.log(res);
       dispatch(authenticateUser());
 
       localStorage.setItem("isAuth", "true");
+      localStorage.setItem("user_id", res.data.id);
     } catch (error) {
       console.log(error.response.data.errors[0].msg);
       setError(error.response.data.errors[0].msg);
